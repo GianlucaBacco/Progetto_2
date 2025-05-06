@@ -46,13 +46,13 @@ public class RomanPrinterTest {
     }
     @Test
     public void testPrintSingleLetters() {
-        assertTrue(RomanPrinter.print("I").contains("|   |"));
-        assertTrue(RomanPrinter.print("V").contains("\/"));
-        assertTrue(RomanPrinter.print("X").contains("> <"));
-        assertTrue(RomanPrinter.print("L").contains("| |"));
-        assertTrue(RomanPrinter.print("C").contains("|_|"));
-        assertTrue(RomanPrinter.print("D").contains("| |__| |"));
-        assertTrue(RomanPrinter.print("M").contains("|  \/  |"));
+         assertTrue(RomanPrinter.print("I").contains("|   |"));
+         assertTrue(RomanPrinter.print("V").contains("\\/"));
+         assertTrue(RomanPrinter.print("X").contains("> <"));
+         assertTrue(RomanPrinter.print("L").contains("| |"));
+         assertTrue(RomanPrinter.print("C").contains("|_|"));
+         assertTrue(RomanPrinter.print("D").contains("| |__| |"));
+         assertTrue(RomanPrinter.print("M").contains("|  \\/  |"));
     }
     @Test
     public void testPrintCompositeRomanNumerals() {
