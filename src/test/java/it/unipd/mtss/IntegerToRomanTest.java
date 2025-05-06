@@ -8,6 +8,8 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
+import java.util.HashMap;
+import java.util.Map;
 
 public class IntegerToRomanTest {
     @Test
@@ -42,5 +44,74 @@ public class IntegerToRomanTest {
         assertEquals("DCCC", IntegerToRoman.convert(800));
         assertEquals("CM", IntegerToRoman.convert(900));
         assertEquals("M", IntegerToRoman.convert(1000));
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidConversionZero() {
+        IntegerToRoman.convert(0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidConversionGreaterThan1000() {
+        IntegerToRoman.convert(1001);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidConversionNegative() {
+        IntegerToRoman.convert(-1);
+    }
+    private int romanToInteger(String romanNumeral) {
+        Map<Character, Integer> romanValues = new HashMap<>();
+        romanValues.put('I', 1);
+        romanValues.put('V', 5);
+        romanValues.put('X', 10);
+        romanValues.put('L', 50);
+        romanValues.put('C', 100);
+        romanValues.put('D', 500);
+        romanValues.put('M', 1000);
+
+        int result = 0;
+        int prevValue = 0;
+
+        for (int i = romanNumeral.length() - 1; i >= 0; i--) {
+            char c = romanNumeral.charAt(i);
+            int val = romanValues.getOrDefault(c, -1);
+            if (val == -1) {
+                throw new IllegalArgumentException("Invalid Roman numeral character: " + c);
+            }
+            if (val < prevValue) {
+                result -= val;
+            } else {
+                result += val;
+            }
+            prevValue = val;
+        }
+        return result;
+    }
+    @Test(timeout = 1000)
+    public void testCrossCheckConversion() {
+        for (int i = 1; i <= 1000; i++) {
+            String roman = IntegerToRoman.convert(i);
+            int backToInteger = romanToInteger(roman);
+            assertEquals("Errore nella conversione bidirezionale di " + i, i, backToInteger);
+        }
+    }
+   @Test(expected = IllegalArgumentException.class)
+    public void testMalformedRomanInput_IIII() {
+        romanToInteger("IIII");  // numero scorretto
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMalformedRomanInput_InvalidChar() {
+        romanToInteger("ABCD");  // caratteri non validi
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMalformedRomanInput_EmptyString() {
+        romanToInteger("");  // stringa vuota
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testMalformedRomanInput_Null() {
+        romanToInteger(null);  // input null
     }
 }

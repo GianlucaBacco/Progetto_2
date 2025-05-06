@@ -8,6 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
+import java.util.List;
 
 public class RomanPrinterTest {
     @Test
@@ -37,10 +38,70 @@ public class RomanPrinterTest {
         assertEquals("   _____    _____    _____ \n  / ____|  / ____|  / ____|\n | |      | |      | |     \n | |      | |      | |     \n | |____  | |____  | |____ \n  \\_____|  \\_____|  \\_____|\n", RomanPrinter.print(300));
         assertEquals("   _____   _____  \n  / ____| |  __ \\ \n | |      | |  | |\n | |      | |  | |\n | |____  | |__| |\n  \\_____| |_____/ \n", RomanPrinter.print(400));
         assertEquals("  _____  \n |  __ \\ \n | |  | |\n | |  | |\n | |__| |\n |_____/ \n", RomanPrinter.print(500));
-	 assertEquals("  _____     _____ \n |  __ \\   / ____|\n | |  | | | |     \n | |  | | | |     \n | |__| | | |____ \n |_____/   \\_____|\n", RomanPrinter.print(600));
+	assertEquals("  _____     _____ \n |  __ \\   / ____|\n | |  | | | |     \n | |  | | | |     \n | |__| | | |____ \n |_____/   \\_____|\n", RomanPrinter.print(600));
         assertEquals("  _____     _____    _____ \n |  __ \\   / ____|  / ____|\n | |  | | | |      | |     \n | |  | | | |      | |     \n | |__| | | |____  | |____ \n |_____/   \\_____|  \\_____|\n", RomanPrinter.print(700));
         assertEquals("  _____     _____    _____    _____ \n |  __ \\   / ____|  / ____|  / ____|\n | |  | | | |      | |      | |     \n | |  | | | |      | |      | |     \n | |__| | | |____  | |____  | |____ \n |_____/   \\_____|  \\_____|  \\_____|\n", RomanPrinter.print(800));
         assertEquals("   _____   __  __ \n  / ____| |  \\/  |\n | |      | \\  / |\n | |      | |\\/| |\n | |____  | |  | |\n  \\_____| |_|  |_|\n", RomanPrinter.print(900));
         assertEquals("  __  __ \n |  \\/  |\n | \\  / |\n | |\\/| |\n | |  | |\n |_|  |_|\n", RomanPrinter.print(1000));
+    }
+    @Test
+    public void testPrintSingleLetters() {
+        assertTrue(RomanPrinter.print("I").contains("|   |"));
+        assertTrue(RomanPrinter.print("V").contains("\/"));
+        assertTrue(RomanPrinter.print("X").contains("> <"));
+        assertTrue(RomanPrinter.print("L").contains("| |"));
+        assertTrue(RomanPrinter.print("C").contains("|_|"));
+        assertTrue(RomanPrinter.print("D").contains("| |__| |"));
+        assertTrue(RomanPrinter.print("M").contains("|  \/  |"));
+    }
+    @Test
+    public void testPrintCompositeRomanNumerals() {
+        String printed = RomanPrinter.print("IV");
+        assertTrue(printed.contains("I"));
+        assertTrue(printed.contains("V"));
+        assertEquals(6, printed.split("\n").length);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testPrintInvalidCharacter() {
+        RomanPrinter.print("Z");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPrintEmptyString() {
+        RomanPrinter.print("");
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testPrintNullString() {
+        RomanPrinter.print(null);
+    }
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidConversionZero() {
+        RomanPrinter.print(0);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidConversionTooHigh() {
+        RomanPrinter.print(1001);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testInvalidConversionNegative() {
+        RomanPrinter.print(-1);
+    }
+    @Test
+    public void testAsciiArtRepositoryValidCharacters() {
+        assertTrue(AsciiArtRepository.get('I').size() == 6);
+        assertTrue(AsciiArtRepository.get('V').size() == 6);
+        assertTrue(AsciiArtRepository.get('X').size() == 6);
+        assertTrue(AsciiArtRepository.get('L').size() == 6);
+        assertTrue(AsciiArtRepository.get('C').size() == 6);
+        assertTrue(AsciiArtRepository.get('D').size() == 6);
+        assertTrue(AsciiArtRepository.get('M').size() == 6);
+    }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testAsciiArtRepositoryInvalidCharacter() {
+        AsciiArtRepository.get('Z');
     }
 }
